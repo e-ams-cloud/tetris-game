@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Тетрис для Supermium</title>
+    <title>Г’ГҐГІГ°ГЁГ± Г¤Г«Гї Supermium</title>
     <style>
         body {
             background-color: #202020;
@@ -69,19 +69,19 @@
         <canvas id="tetris" width="240" height="400"></canvas>
         <div id="sidebar">
             <div class="info-box">
-                <h2>Счёт</h2>
+                <h2>Г‘Г·ВёГІ</h2>
                 <div id="score">0</div>
             </div>
             <div class="info-box">
-                <h2>Линии</h2>
+                <h2>Г‹ГЁГ­ГЁГЁ</h2>
                 <div id="lines">0</div>
             </div>
             <div id="controls">
-                <strong>Управление:</strong><br>
-                < / > : Движение<br>
-                ^ : Поворот<br>
-                v : Ускорить падение<br>
-                Пробел : Сбросить вниз
+                <strong>Г“ГЇГ°Г ГўГ«ГҐГ­ГЁГҐ:</strong><br>
+                < / > : Г„ГўГЁГ¦ГҐГ­ГЁГҐ<br>
+                ^ : ГЏГ®ГўГ®Г°Г®ГІ<br>
+                v : Г“Г±ГЄГ®Г°ГЁГІГј ГЇГ Г¤ГҐГ­ГЁГҐ<br>
+                ГЏГ°Г®ГЎГҐГ« : Г‘ГЎГ°Г®Г±ГЁГІГј ГўГ­ГЁГ§
             </div>
         </div>
     </div>
@@ -92,7 +92,7 @@ const context = canvas.getContext('2d');
 
 context.scale(20, 20);
 
-// Проверка и очистка заполненных линий
+// ГЏГ°Г®ГўГҐГ°ГЄГ  ГЁ Г®Г·ГЁГ±ГІГЄГ  Г§Г ГЇГ®Г«Г­ГҐГ­Г­Г»Гµ Г«ГЁГ­ГЁГ©
 function arenaSweep() {
     let rowCount = 1;
     outer: for (let y = arena.length - 1; y > 0; --y) {
@@ -111,7 +111,7 @@ function arenaSweep() {
     }
 }
 
-// Проверка столкновений
+// ГЏГ°Г®ГўГҐГ°ГЄГ  Г±ГІГ®Г«ГЄГ­Г®ГўГҐГ­ГЁГ©
 function collide(arena, player) {
     const [m, o] = [player.matrix, player.pos];
     for (let y = 0; y < m.length; ++y) {
@@ -126,7 +126,7 @@ function collide(arena, player) {
     return false;
 }
 
-// Создание матрицы игрового поля
+// Г‘Г®Г§Г¤Г Г­ГЁГҐ Г¬Г ГІГ°ГЁГ¶Г» ГЁГЈГ°Г®ГўГ®ГЈГ® ГЇГ®Г«Гї
 function createMatrix(w, h) {
     const matrix = [];
     while (h--) {
@@ -135,7 +135,7 @@ function createMatrix(w, h) {
     return matrix;
 }
 
-// Создание фигур
+// Г‘Г®Г§Г¤Г Г­ГЁГҐ ГґГЁГЈГіГ°
 function createPiece(type) {
     if (type === 'T') {
         return [
@@ -182,7 +182,7 @@ function createPiece(type) {
     }
 }
 
-// Отрисовка
+// ГЋГІГ°ГЁГ±Г®ГўГЄГ 
 function draw() {
     context.fillStyle = '#000';
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -215,7 +215,7 @@ function drawMatrix(matrix, offset) {
     });
 }
 
-// Закрепление фигуры на поле
+// Г‡Г ГЄГ°ГҐГЇГ«ГҐГ­ГЁГҐ ГґГЁГЈГіГ°Г» Г­Г  ГЇГ®Г«ГҐ
 function merge(arena, player) {
     player.matrix.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -226,7 +226,7 @@ function merge(arena, player) {
     });
 }
 
-// Движение вниз
+// Г„ГўГЁГ¦ГҐГ­ГЁГҐ ГўГ­ГЁГ§
 function playerDrop() {
     player.pos.y++;
     if (collide(arena, player)) {
@@ -239,7 +239,7 @@ function playerDrop() {
     dropCounter = 0;
 }
 
-// Мгновенный сброс вниз (Hard Drop)
+// ГЊГЈГ­Г®ГўГҐГ­Г­Г»Г© Г±ГЎГ°Г®Г± ГўГ­ГЁГ§ (Hard Drop)
 function playerHardDrop() {
     while (!collide(arena, player)) {
         player.pos.y++;
@@ -252,7 +252,7 @@ function playerHardDrop() {
     dropCounter = 0;
 }
 
-// Смещение по горизонтали
+// Г‘Г¬ГҐГ№ГҐГ­ГЁГҐ ГЇГ® ГЈГ®Г°ГЁГ§Г®Г­ГІГ Г«ГЁ
 function playerMove(dir) {
     player.pos.x += dir;
     if (collide(arena, player)) {
@@ -260,7 +260,7 @@ function playerMove(dir) {
     }
 }
 
-// Появление новой фигуры
+// ГЏГ®ГїГўГ«ГҐГ­ГЁГҐ Г­Г®ГўГ®Г© ГґГЁГЈГіГ°Г»
 function playerReset() {
     const pieces = 'ILJOTSZ';
     player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
@@ -275,7 +275,7 @@ function playerReset() {
     }
 }
 
-// Поворот фигуры
+// ГЏГ®ГўГ®Г°Г®ГІ ГґГЁГЈГіГ°Г»
 function playerRotate(dir) {
     const pos = player.pos.x;
     let offset = 1;
