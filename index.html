@@ -100,7 +100,7 @@ function arenaSweep() {
                 continue outer;
             }
         }
-        const row = arena.splice(y, 1).fill(0);
+        const row = arena.splice(y, 1)[0].fill(0);
         arena.unshift(row);
         ++y;
 
@@ -125,14 +125,13 @@ function collide(arena, player) {
 }
 
 function createMatrix(w, h) {
-    const matrix = [];
+    const matrix = new Array();
     while (h--) {
         matrix.push(new Array(w).fill(0));
     }
     return matrix;
 }
 
-// Защищенный текстовый формат: предотвращает порчу массивов при копировании
 function createPiece(type) {
     let template = "";
     let size = 3;
@@ -145,11 +144,11 @@ function createPiece(type) {
     else if (type === 'S') { template = "066660000"; size = 3; }
     else if (type === 'Z') { template = "770077000"; size = 3; }
 
-    const matrix = [];
+    const matrix = new Array();
     for (let i = 0; i < size; i++) {
-        const row = [];
+        const row = new Array();
         for (let j = 0; j < size; j++) {
-            row.push(parseInt(template[i * size + j]));
+            row.push(parseInt(template.charAt(i * size + j)));
         }
         matrix.push(row);
     }
@@ -313,4 +312,3 @@ update();
 </script>
 </body>
 </html>
-
