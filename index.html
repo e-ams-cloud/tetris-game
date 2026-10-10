@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-   <meta charset="windows-1251">
-
-    <title>Òåòðèñ äëÿ Supermium</title>
+    <meta charset="UTF-8">
+    <title>Tetris for Supermium</title>
     <style>
         body {
             background-color: #202020;
@@ -35,7 +34,7 @@
             flex-direction: column;
             justify-content: space-between;
             height: 400px;
-            min-width: 120px;
+            min-width: 140px;
         }
         .info-box {
             background: #222;
@@ -60,7 +59,7 @@
             margin-top: 15px;
             font-size: 11px;
             color: #888;
-            line-height: 1.5;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -70,19 +69,19 @@
         <canvas id="tetris" width="240" height="400"></canvas>
         <div id="sidebar">
             <div class="info-box">
-                <h2>Ñ÷¸ò</h2>
+                <h2>Score</h2>
                 <div id="score">0</div>
             </div>
             <div class="info-box">
-                <h2>Ëèíèè</h2>
+                <h2>Lines</h2>
                 <div id="lines">0</div>
             </div>
             <div id="controls">
-                <strong>Óïðàâëåíèå:</strong><br>
-                < / > : Äâèæåíèå<br>
-                ^ : Ïîâîðîò<br>
-                v : Óñêîðèòü ïàäåíèå<br>
-                Ïðîáåë : Ñáðîñèòü âíèç
+                <strong>Controls:</strong><br>
+                ← / → : Move Piece<br>
+                ↑ : Rotate<br>
+                ↓ : Soft Drop<br>
+                Space : Hard Drop
             </div>
         </div>
     </div>
@@ -93,7 +92,6 @@ const context = canvas.getContext('2d');
 
 context.scale(20, 20);
 
-// Ïðîâåðêà è î÷èñòêà çàïîëíåííûõ ëèíèé
 function arenaSweep() {
     let rowCount = 1;
     outer: for (let y = arena.length - 1; y > 0; --y) {
@@ -102,7 +100,7 @@ function arenaSweep() {
                 continue outer;
             }
         }
-        const row = arena.splice(y, 1)[0].fill(0);
+        const row = arena.splice(y, 1).fill(0);
         arena.unshift(row);
         ++y;
 
@@ -112,7 +110,6 @@ function arenaSweep() {
     }
 }
 
-// Ïðîâåðêà ñòîëêíîâåíèé
 function collide(arena, player) {
     const [m, o] = [player.matrix, player.pos];
     for (let y = 0; y < m.length; ++y) {
@@ -127,7 +124,6 @@ function collide(arena, player) {
     return false;
 }
 
-// Ñîçäàíèå ìàòðèöû èãðîâîãî ïîëÿ
 function createMatrix(w, h) {
     const matrix = [];
     while (h--) {
@@ -136,54 +132,45 @@ function createMatrix(w, h) {
     return matrix;
 }
 
-// Ñîçäàíèå ôèãóð
 function createPiece(type) {
     if (type === 'T') {
-        return [
-            [0, 0, 0],
-            [1, 1, 1],
-            [0, 1, 0],
+        return [,
+ ,
+ ,
         ];
     } else if (type === 'O') {
-        return [
-            [2, 2],
-            [2, 2],
+        return [,
+ ,
         ];
     } else if (type === 'L') {
-        return [
-            [0, 3, 0],
-            [0, 3, 0],
-            [0, 3, 3],
+        return [,
+ ,
+ ,
         ];
     } else if (type === 'J') {
-        return [
-            [0, 4, 0],
-            [0, 4, 0],
-            [4, 4, 0],
+        return [,
+ ,
+ ,
         ];
     } else if (type === 'I') {
-        return [
-            [0, 5, 0, 0],
-            [0, 5, 0, 0],
-            [0, 5, 0, 0],
-            [0, 5, 0, 0],
+        return [,
+ ,
+ ,
+ ,
         ];
     } else if (type === 'S') {
-        return [
-            [0, 6, 6],
-            [6, 6, 0],
-            [0, 0, 0],
+        return [,
+ ,
+ ,
         ];
     } else if (type === 'Z') {
-        return [
-            [7, 7, 0],
-            [0, 7, 7],
-            [0, 0, 0],
+        return [,
+ ,
+ ,
         ];
     }
 }
 
-// Îòðèñîâêà
 function draw() {
     context.fillStyle = '#000';
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -216,7 +203,6 @@ function drawMatrix(matrix, offset) {
     });
 }
 
-// Çàêðåïëåíèå ôèãóðû íà ïîëå
 function merge(arena, player) {
     player.matrix.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -227,7 +213,6 @@ function merge(arena, player) {
     });
 }
 
-// Äâèæåíèå âíèç
 function playerDrop() {
     player.pos.y++;
     if (collide(arena, player)) {
@@ -240,7 +225,6 @@ function playerDrop() {
     dropCounter = 0;
 }
 
-// Ìãíîâåííûé ñáðîñ âíèç (Hard Drop)
 function playerHardDrop() {
     while (!collide(arena, player)) {
         player.pos.y++;
@@ -253,7 +237,6 @@ function playerHardDrop() {
     dropCounter = 0;
 }
 
-// Ñìåùåíèå ïî ãîðèçîíòàëè
 function playerMove(dir) {
     player.pos.x += dir;
     if (collide(arena, player)) {
@@ -261,7 +244,7 @@ function playerMove(dir) {
     }
 }
 
-// Ïîÿâëåíèå íîâîé ôèãóðû
+// Новое появление фигуры
 function playerReset() {
     const pieces = 'ILJOTSZ';
     player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
@@ -276,7 +259,6 @@ function playerReset() {
     }
 }
 
-// Ïîâîðîò ôèãóðû
 function playerRotate(dir) {
     const pos = player.pos.x;
     let offset = 1;
